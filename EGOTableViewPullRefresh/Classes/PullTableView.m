@@ -91,18 +91,20 @@
     
     if (!self.disableRefresh) {
         /* Refresh View */
-        self.refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0, -self.bounds.size.height, self.bounds.size.width, self.bounds.size.height)];
-        self.refreshView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-        self.refreshView.delegate = self;
-        [self addSubview:self.refreshView];
+        EGORefreshTableHeaderView *refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0, -self.bounds.size.height, self.bounds.size.width, self.bounds.size.height)];
+        refreshView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+        refreshView.delegate = self;
+        [self addSubview:refreshView];
+        self.refreshView = refreshView;
     }
 
     if (!self.disableLoadMore) {
         /* Load more view init */
-        self.loadMoreView = [[LoadMoreTableFooterView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height, self.bounds.size.width, self.bounds.size.height)];
-        self.loadMoreView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        self.loadMoreView.delegate = self;
-        [self addSubview:self.loadMoreView];
+        LoadMoreTableFooterView *loadMoreView = [[LoadMoreTableFooterView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height, self.bounds.size.width, self.bounds.size.height)];
+        loadMoreView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        loadMoreView.delegate = self;
+        [self addSubview:loadMoreView];
+        self.loadMoreView = loadMoreView;
     }
 }
 
