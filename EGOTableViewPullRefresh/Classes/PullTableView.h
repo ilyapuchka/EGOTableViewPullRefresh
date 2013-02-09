@@ -42,9 +42,6 @@
 
 @interface PullTableView : UITableView <EGORefreshTableHeaderDelegate, LoadMoreTableFooterDelegate>{
     
-    EGORefreshTableHeaderView *refreshView;
-    LoadMoreTableFooterView *loadMoreView;
-    
     // Since we use the contentInsets to manipulate the view we need to store the the content insets originally specified.
     UIEdgeInsets realContentInsets;
     
@@ -66,10 +63,14 @@
     
 }
 
+@property (nonatomic) BOOL disableLoadMore;
+@property (nonatomic) BOOL disableRefresh;
+
 /* The configurable display properties of PullTableView. Set to nil for default values */
 @property (nonatomic, retain) UIImage *pullArrowImage;
 @property (nonatomic, retain) UIColor *pullBackgroundColor;
 @property (nonatomic, retain) UIColor *pullTextColor;
+@property (nonatomic) UIActivityIndicatorViewStyle indicatorStyle;
 
 /* Set to nil to hide last modified text */
 @property (nonatomic, retain) NSDate *pullLastRefreshDate;

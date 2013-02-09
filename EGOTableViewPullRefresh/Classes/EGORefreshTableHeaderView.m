@@ -84,7 +84,7 @@
 		[self setState:EGOOPullNormal];
         
         /* Configure the default colors and arrow image */
-        [self setBackgroundColor:nil textColor:nil arrowImage:nil];
+        [self setBackgroundColor:nil textColor:nil arrowImage:nil indicatorStyle:DEFAULT_ACTIVITY_INDICATOR_STYLE];
 		
     }
 	
@@ -114,30 +114,30 @@
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / aMinute);
             
             if(timeToDisplay == /* Singular*/ 1) {
-            _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld minute ago",@"PullTableViewLan",@"Last uppdate in minutes singular"),(long)timeToDisplay];
+            _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minute ago"),(long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld minutes ago",@"PullTableViewLan",@"Last uppdate in minutes plural"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minutes ago"), (long)timeToDisplay];
 
             }
             
         } else if (timeSinceLastUpdate < aDay) {
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / anHour);
             if(timeToDisplay == /* Singular*/ 1) {
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld hour ago",@"PullTableViewLan",@"Last uppdate in hours singular"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld hour ago"), (long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld hours ago",@"PullTableViewLan",@"Last uppdate in hours plural"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld hours ago"), (long)timeToDisplay];
                 
             }
             
         } else {
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / aDay);
             if(timeToDisplay == /* Singular*/ 1) {
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld day ago",@"PullTableViewLan",@"Last uppdate in days singular"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld day ago"), (long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld days ago",@"PullTableViewLan",@"Last uppdate in days plural"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld days ago"), (long)timeToDisplay];
             }
             
         }
@@ -161,7 +161,7 @@
 	switch (aState) {
 		case EGOOPullPulling:
 			
-			_statusLabel.text = NSLocalizedStringFromTable(@"Release to refresh...",@"PullTableViewLan", @"Release to refresh status");
+			_statusLabel.text = CCLocalizedStringForKey(@"Release to refresh...");
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
 			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -177,7 +177,7 @@
 				[CATransaction commit];
 			}
 			
-			_statusLabel.text = NSLocalizedStringFromTable(@"Pull down to refresh...",@"PullTableViewLan", @"Pull down to refresh status");
+			_statusLabel.text = CCLocalizedStringForKey(@"Pull down to refresh...");
 			[_activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -190,7 +190,7 @@
 			break;
 		case EGOOPullLoading:
 			
-			_statusLabel.text = NSLocalizedStringFromTable(@"Loading...",@"PullTableViewLan", @"Loading Status");
+			_statusLabel.text = CCLocalizedStringForKey(@"Loading...");
 			[_activityView startAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -205,7 +205,7 @@
 	_state = aState;
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor textColor:(UIColor *) textColor arrowImage:(UIImage *) arrowImage
+- (void)setBackgroundColor:(UIColor *)backgroundColor textColor:(UIColor *) textColor arrowImage:(UIImage *) arrowImage indicatorStyle:(UIActivityIndicatorViewStyle)style
 {
     self.backgroundColor = backgroundColor? backgroundColor : DEFAULT_BACKGROUND_COLOR;
     
@@ -220,6 +220,8 @@
     _statusLabel.shadowColor = [_statusLabel.textColor colorWithAlphaComponent:0.1f];
     
     _arrowImage.contents = (id)(arrowImage? arrowImage.CGImage : DEFAULT_ARROW_IMAGE.CGImage);
+    
+    _activityView.activityIndicatorViewStyle = style;
 }
 
 
