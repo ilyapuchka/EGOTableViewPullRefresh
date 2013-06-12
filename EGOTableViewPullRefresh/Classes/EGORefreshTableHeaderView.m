@@ -113,12 +113,29 @@
         if(timeSinceLastUpdate < anHour) {
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / aMinute);
             
-            if(timeToDisplay == /* Singular*/ 1) {
-            _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minute ago"),(long)timeToDisplay];
+            if (timeToDisplay == 0) {
+                _lastUpdatedLabel.text = CCLocalizedStringForKey(@"Updated just now");
+            }
+            else if(timeToDisplay == /* Singular*/ 1) {
+                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minute ago"),(long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minutes ago"), (long)timeToDisplay];
-
+                NSString *updateText = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minutes ago"), (long)timeToDisplay];
+                
+                if ([[CCLocalizationManager currentUserLanguage] isEqualToString:@"ru"] &&
+                    (timeToDisplay < 10 || timeToDisplay >= 20)) {
+                    while (timeToDisplay > 10) {
+                        timeToDisplay = timeToDisplay % 10;
+                    }
+                    if (timeToDisplay >= 2 && timeToDisplay <= 4) {
+                        updateText = [updateText stringByReplacingOccurrencesOfString:@"минут" withString:@"минтуты"];
+                    }
+                    else if (timeToDisplay == 1) {
+                        updateText = [NSString stringWithFormat:CCLocalizedStringForKey(@"Updated %ld minute ago"),(long)timeToDisplay];
+                    }
+                }
+                
+                _lastUpdatedLabel.text = updateText;
             }
             
         } else if (timeSinceLastUpdate < aDay) {
